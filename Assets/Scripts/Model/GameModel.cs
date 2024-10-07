@@ -1,34 +1,39 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Zenject;
 
 namespace Model
 {
-    public class GameModel
+    public class GameModel : IModel
     {
         public event Action WrongMove;
         public event Action CorrectMove;
+        public byte Row { get; }
+        public byte Column { get; }
 
-        private Cell[,] _table;
+        public Cell[,] Table { get; protected set; }
         private List<short> _picked;
         private short _currentOrder = 0;
 
         public GameModel(GameSettings settings)
         {
+            Row = settings.Rows;
+            Column = settings.Columns;
+
             InitPicked(settings);
             InitTable(settings);
         }
 
-        public void Move(int row, int column)
+        public void Move(byte row, byte column)
         {
-            if (_currentOrder != _table[row, column].order)
+            if (_currentOrder != Table[row, column].order)
             {
                 WrongMove?.Invoke();
             }
             else
             {
                 _currentOrder += 1;
+                Table[row, column].locked = true;
                 CorrectMove?.Invoke();
             }
         }
@@ -47,13 +52,13 @@ namespace Model
 
         private void InitTable(GameSettings settings)
         {
-            _table = new Cell[settings.Rows, settings.Columns];
-            for (byte i = 0; i < _table.GetLength(0); i++)
+            Table = new Cell[settings.Rows, settings.Columns];
+            for (byte i = 0; i < Table.GetLength(0); i++)
             {
-                short columns = (short)_table.GetLength(1);
+                short columns = (short)Table.GetLength(1);
                 for (byte j = 0; j < columns; j++)
                 {
-                    _table[i, j] = new Cell(i, j, GetRandomValue(), (short)(i * columns + j));
+                    Table[i, j] = new Cell(i, j, GetRandomValue(), (short)(i * columns + j));
                 }
             }
         }
