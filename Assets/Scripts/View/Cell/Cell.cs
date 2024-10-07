@@ -1,36 +1,35 @@
 using UnityEngine;
-using Utils;
+using UnityEngine.UI;
 using Zenject;
+using TMPro;
+using DG.Tweening;
 
 namespace View
 {
-    public class Cell : MonoBehaviour, IContext<Model.Cell>
+    public class Cell : MonoBehaviour
     {
-        public IStrategy<Model.Cell> Strategy { get; set; }
-
+        [SerializeField]
+        private TMP_Text _text;
+        [SerializeField]
+        private Image _image; 
         private Model.Cell _cellData;
 
-        public Cell(Model.Cell cellData, IStrategy<Model.Cell> strategy)
+        public void SetData(Model.Cell cellData)
         {
             _cellData = cellData;
-            Strategy = strategy;
-        }
-
-        public void Execute()
-        {
-            Strategy.Execute(_cellData);
+            _text.text = _cellData.value.ToString();
         }
 
         public void OnCorrectMove()
         {
-            // do smth...
+            Debug.Log("Correct");
         }
 
         public void OnWrongMove()
         {
-            // do smth...
+            Debug.Log("Wrong");
         }
 
-        public class Factory: PlaceholderFactory<Model.Cell, Cell> { }
+        public class Factory: PlaceholderFactory<Cell> { }
     }
 }

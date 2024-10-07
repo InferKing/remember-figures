@@ -10,6 +10,8 @@ namespace Controller
     {
         [SerializeField]
         private List<GameSettings> _settings;
+        [SerializeField]
+        private GameObject _cell;
 
         public override void InstallBindings()
         {
@@ -17,7 +19,9 @@ namespace Controller
             Session session = fm.LoadSession();
             GameSettings pickedSettings = _settings.First(item => item.Difficulty == session.difficulty);
 
-            Container.BindInstance(new GameModel(pickedSettings));
+            Container.BindInstance(new GameModel(pickedSettings)).AsSingle();
+            Container.BindFactory<View.Cell, View.Cell.Factory>().FromComponentInNewPrefab(_cell);
+            Container.BindInterfacesAndSelfTo<View.Field>().AsSingle();
         }
     } 
 }
