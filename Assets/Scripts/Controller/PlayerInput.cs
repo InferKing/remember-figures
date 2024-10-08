@@ -27,9 +27,11 @@ public class PlayerInput : MonoBehaviour
     private void Update()
     {
         if (_lockedInput) return;
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
             if (Physics.Raycast(ray, out RaycastHit hit, _maxDistance, _mask))
             {
                 if (hit.collider != null && hit.collider.TryGetComponent(out Cell cell))
