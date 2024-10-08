@@ -6,12 +6,33 @@ namespace View
 {
     public class Field : IInitializable
     {
-        private const float _spacing = 0.2f;
+        private const float Spacing = 0.2f;
 
         private Model.IModel _model;
         private Cell[,] _cells;
         private Cell.Factory _factory;
         private GameLoop _gameLoop;
+
+        public void Initialize()
+        {
+            _cells = new Cell[_model.Row, _model.Column];
+
+            for (byte i = 0; i < _model.Row; i++)
+            {
+                for (byte j = 0; j < _model.Column; j++)
+                {
+                    Cell cell = _factory.Create();
+                    cell.SetData(_model.Table[i, j]);
+                    cell.Show(Color.white);
+                    _cells[i, j] = cell;
+                    PlaceCellOnField(cell, i, j);
+
+                    cell.Pressed += _model.Move;
+                    _model.CorrectMove += cell.OnCorrectMove;
+                    _model.WrongMove += cell.OnWrongMove;
+                }
+            }
+        }
 
         [Inject]
         private void InitFactory(Cell.Factory factory)
@@ -30,31 +51,6 @@ namespace View
         {
             _gameLoop = gameLoop;
             _gameLoop.GameStarted += OnGameStarted;
-        }
-
-        public void Initialize()
-        {
-            _cells = new Cell[_model.Row, _model.Column];
-
-            for (byte i = 0; i < _model.Row; i++)
-            {
-                for (byte j = 0; j < _model.Column; j++)
-                {
-                    // как прокинуть в create, а не через setdata?
-                    Cell cell = _factory.Create();
-                    cell.SetData(_model.Table[i, j]);
-                    cell.Show(Color.white);
-                    _cells[i, j] = cell;
-                    PlaceCellOnField(cell, i, j);
-
-                    // field выступает в роли контроллера, хотя это view
-                    // mvc говно (у меня не он, но я пытался)
-                    // mvvm скорее всего лучше бы смотрелся
-                    cell.Pressed += _model.Move;
-                    _model.CorrectMove += cell.OnCorrectMove;
-                    _model.WrongMove += cell.OnWrongMove;
-                }
-            }
         }
 
         private void OnGameStarted()
@@ -77,14 +73,14 @@ namespace View
         {
             Rect cellRect = cell.GetComponent<RectTransform>().rect;
 
-            float totalWidth = cellRect.width * _model.Column + (_model.Column - 1) * _spacing;
-            float totalHeight = cellRect.height * _model.Row + (_model.Row - 1) * _spacing;
+            float totalWidth = cellRect.width * _model.Column + (_model.Column - 1) * Spacing;
+            float totalHeight = cellRect.height * _model.Row + (_model.Row - 1) * Spacing;
 
             float offsetX = (totalWidth - cellRect.width) / 2;
             float offsetZ = (totalHeight - cellRect.height) / 2;
 
-            float posX = column * (cellRect.width + _spacing) - offsetX;
-            float posZ = row * (cellRect.height + _spacing) - offsetZ;
+            float posX = column * (cellRect.width + Spacing) - offsetX;
+            float posZ = row * (cellRect.height + Spacing) - offsetZ;
 
             cell.transform.position = new Vector3(posX, 0, posZ);
         }

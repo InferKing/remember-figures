@@ -167,10 +167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6edd49e28af31949babc3f43d05640a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxDistance: 20
   _mask:
     serializedVersion: 2
     m_Bits: 8
-  _maxDistance: 20
 --- !u!1 &194025318
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2206d65e6e47c1847a6345738527f9d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ui: {fileID: 0}
 --- !u!114 &194025321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,8 +477,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a9d3a0d6357fc51449a612ddb199c81e, type: 2}
   - {fileID: 11400000, guid: 1817ed81fbfa7f64a9ca8184f2e8325f, type: 2}
   - {fileID: 11400000, guid: 4b02c1cb1cfcd2749ad80af687339290, type: 2}
-  _cell: {fileID: 661148478849624766, guid: 8bf382d7741f62c46bd1711f08dd73a8, type: 3}
-  _loop: {fileID: 6204252637443198963, guid: 5640ab50249151549b7f56970fe5d636, type: 3}
+  _cellPrefab: {fileID: 4054781769678408889, guid: 8bf382d7741f62c46bd1711f08dd73a8, type: 3}
+  _loopPrefab: {fileID: 6204252637443198963, guid: 5640ab50249151549b7f56970fe5d636, type: 3}
 --- !u!1 &1183291405
 GameObject:
   m_ObjectHideFlags: 0

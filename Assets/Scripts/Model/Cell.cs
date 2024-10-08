@@ -2,20 +2,20 @@
 {
     public class Cell
     {
-        public readonly byte row;
-        public readonly byte col;
-        public readonly short value;
-
-        public bool isShowed;
-        public bool isLocked;
-
-        public Cell(byte row, byte col, short value)
+        public Cell(int row, int column, int value)
         {
-            this.row = row;
-            this.col = col;
-            this.value = value;
-            isLocked = false;
-            isShowed = false;
+            Row = row;
+            Column = column;
+            Value = value;
+            IsShowed = false;
+            IsLocked = false;
         }
+
+        public int Row { get; }
+        public int Column { get; }
+        public int Value { get; }
+
+        public bool IsShowed { get; set; }
+        public bool IsLocked { get; set; }
     }
 }

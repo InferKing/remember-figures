@@ -10,20 +10,20 @@ namespace Controller
     public class EntryPoint : MonoInstaller
     {
         [SerializeField]
-        private List<GameSettings> _settings;
+        private List<GameConfig> _settings;
 
         [SerializeField]
-        private GameObject _cell;
+        private View.Cell _cellPrefab;
         [SerializeField]
-        private GameLoop _loop;
+        private GameLoop _loopPrefab;
 
         public override void InstallBindings()
         {
             DOTween.Init();
 
-            FileManager fm = new();
-            Session session = fm.GetSession();
-            GameSettings pickedSettings = _settings.First(item => item.Difficulty == session.difficulty);
+            FileManager fileManager = new();
+            Session session = fileManager.GetSession();
+            GameConfig pickedSettings = _settings.First(item => item.Difficulty == session.Difficulty);
 
             RegisterModel(pickedSettings);
             RegisterView();
@@ -31,13 +31,13 @@ namespace Controller
 
         private void RegisterView()
         {
-            Container.BindFactory<View.Cell, View.Cell.Factory>().FromComponentInNewPrefab(_cell).AsSingle();
+            Container.BindFactory<View.Cell, View.Cell.Factory>().FromComponentInNewPrefab(_cellPrefab).AsSingle();
             Container.BindInterfacesAndSelfTo<View.Field>().AsSingle();
         }
 
-        private void RegisterModel(GameSettings pickedSettings)
+        private void RegisterModel(GameConfig pickedSettings)
         {
-            Container.Bind<GameLoop>().FromComponentInNewPrefab(_loop).AsSingle();
+            Container.Bind<GameLoop>().FromComponentInNewPrefab(_loopPrefab).AsSingle();
             Container.BindInstance(pickedSettings).AsSingle();
             Container.BindInstance(new GameModel(pickedSettings)).AsSingle();
             Container.Bind<Timer>().AsSingle();

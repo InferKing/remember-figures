@@ -8,10 +8,16 @@ namespace View
     [RequireComponent(typeof(UIDocument))]
     public class UIGame : MonoBehaviour
     {
+        private const string LabelTime = "time";
+        private const string LabelAttempts = "attempts";
+        private const string LabelDifficulty = "difficulty";
+        private const string ButtonRestart = "restart";
+        private const string ButtonMenu = "menu";
+
         private Model.GameModel _model;
         private Model.Timer _timer;
         private Model.Statistics _statistics;
-        private Model.GameSettings _settings;
+        private Model.GameConfig _settings;
 
         [Inject]
         private void InitModel(Model.GameModel model)
@@ -33,45 +39,37 @@ namespace View
         }
 
         [Inject]
-        private void InitGameSettings(Model.GameSettings gameSettings) 
+        private void InitGameConfig(Model.GameConfig GameConfig) 
         {
-            _settings = gameSettings;
+            _settings = GameConfig;
         }
 
         private void ShowUI()
         {
-            // БОЖЕ, я лучше с канвасом поработаю, честно
-            // это чудо очень тяжело настраивать так, как хотелось бы
-            // баг словил: если указывать root в runtime, а не изначально заготовленный => 
-            // стили на высоту перестают работать и сжимают все VisualElement внутри по контенту.
-            // Чинится только если жестко указать высоту в пикселях, что само по себе ловушка джокера :)
             var uiDocument = GetComponent<UIDocument>();
             uiDocument.enabled = true;
 
             VisualElement root = uiDocument.rootVisualElement;
             
-            var lblTime = root.Q<Label>("time");
-            var lblAttempts = root.Q<Label>("attempts");
-            var lblDifficulty = root.Q<Label>("difficulty");
-            var btnRestart = root.Q<Button>("restart");
-            var btnMenu = root.Q<Button>("menu");
+            var labelTime = root.Q<Label>(LabelTime);
+            var labelAttempts = root.Q<Label>(LabelAttempts);
+            var labelDifficulty = root.Q<Label>(LabelDifficulty);
+            var buttonRestart = root.Q<Button>(ButtonRestart);
+            var buttonMenu = root.Q<Button>(ButtonMenu);
 
-            lblTime.text = _timer.ToString();
-            lblAttempts.text = _statistics.WrongAttempts.ToString();
-            lblDifficulty.text = _settings.Difficulty.ToString();
+            labelTime.text = _timer.ToString();
+            labelAttempts.text = _statistics.WrongAttempts.ToString();
+            labelDifficulty.text = _settings.Difficulty.ToString();
 
-            // это как будто не должно быть тут
-            // ---------------------------------
-            btnRestart.RegisterCallback<ClickEvent>(ev =>
+            buttonRestart.RegisterCallback<ClickEvent>(ev =>
             {
                 SceneManager.LoadScene(1);
             });
 
-            btnMenu.RegisterCallback<ClickEvent>(ev => 
+            buttonMenu.RegisterCallback<ClickEvent>(ev => 
             {
                 SceneManager.LoadScene(0);
             });
-            // ---------------------------------
         }
     } 
 }

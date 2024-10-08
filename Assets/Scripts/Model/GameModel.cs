@@ -6,20 +6,10 @@ namespace Model
 {
     public class GameModel : IModel
     {
-        private List<short> _pickedCells;
-        private short _currentOrder = 1;
+        private List<int> _pickedCells;
+        private int _currentOrder = 1;
 
-        public event Action<Cell> WrongMove;
-        public event Action<Cell> CorrectMove;
-        public event Action EndOfGame;
-        
-        public byte Row { get; }
-        public byte Column { get; }
-
-        public Cell ActiveCell { get; protected set; }
-        public Cell[,] Table { get; protected set; }
-
-        public GameModel(GameSettings settings)
+        public GameModel(GameConfig settings)
         {
             Row = settings.Rows;
             Column = settings.Columns;
@@ -28,7 +18,17 @@ namespace Model
             InitTable(settings);
         }
 
-        public void Move(byte row, byte column)
+        public int Row { get; }
+        public int Column { get; }
+
+        public Cell ActiveCell { get; protected set; }
+        public Cell[,] Table { get; protected set; }
+
+        public event Action<Cell> WrongMove;
+        public event Action<Cell> CorrectMove;
+        public event Action EndOfGame;
+
+        public void Move(int row, int column)
         {
             var currentCell = Table[row, column];
 
@@ -37,15 +37,15 @@ namespace Model
                 return;
             }
 
-            if (_currentOrder != currentCell.value)
+            if (_currentOrder != currentCell.Value)
             {
-                ActiveCell = currentCell.isShowed ? null : currentCell;
+                ActiveCell = currentCell.IsShowed ? null : currentCell;
                 WrongMove?.Invoke(currentCell);
             }
             else
             {
                 _currentOrder += 1;
-                currentCell.isLocked = true;
+                currentCell.IsLocked = true;
 
                 CorrectMove?.Invoke(currentCell);
                 ActiveCell = null;
@@ -55,41 +55,46 @@ namespace Model
                     EndOfGame?.Invoke();
                 }
             }
-            currentCell.isShowed = !currentCell.isShowed;
+
+            currentCell.IsShowed = !currentCell.IsShowed;
         }
 
-        private void InitPicked(GameSettings settings)
+        private void InitPicked(GameConfig settings)
         {
             _pickedCells = new();
 
-            for (short i = 0; i < settings.Rows * settings.Columns; i++)
+            for (int i = 0; i < settings.Rows * settings.Columns; i++)
             {
-                _pickedCells.Add((short)(i + 1));
+                _pickedCells.Add(i + 1);
             }
 
-            // need to shuffle list before using
+            ShuffleCells();
+        }
+
+        private void ShuffleCells()
+        {
             Random rand = new();
             _pickedCells = _pickedCells.OrderBy(x => rand.Next()).ToList();
         }
 
-        private void InitTable(GameSettings settings)
+        private void InitTable(GameConfig settings)
         {
             Table = new Cell[settings.Rows, settings.Columns];
 
-            for (byte i = 0; i < Table.GetLength(0); i++)
+            for (int i = 0; i < Table.GetLength(0); i++)
             {
-                short columns = (short)Table.GetLength(1);
+                int columns = Table.GetLength(1);
 
-                for (byte j = 0; j < columns; j++)
+                for (int j = 0; j < columns; j++)
                 {
-                    Table[i, j] = new Cell(i, j, GetRandomValue());
+                    Table[i, j] = new Cell(i, j, GetAndRemoveFirstCell());
                 }
             }
         }
 
-        private short GetRandomValue()
+        private int GetAndRemoveFirstCell()
         {
-            short pickedValue = _pickedCells[0];
+            int pickedValue = _pickedCells[0];
             _pickedCells.RemoveAt(0);
             return pickedValue;
         }

@@ -2,9 +2,11 @@ using UnityEngine;
 
 namespace Model
 {
-    public class Timer
+	public class Timer
 	{
-		public float Time { get; private set; }
+		private const int SecondsInMinute = 60;
+
+        public float Time { get; private set; }
 
 		public void Start()
 		{
@@ -16,9 +18,9 @@ namespace Model
 			Time = UnityEngine.Time.time - Time;
 		}
 
-        public override string ToString()
-        {
-            return $"{Mathf.FloorToInt(Time / 60):D2} мин. {Mathf.FloorToInt(Time % 60):D2} сек.";
-        }
-    }
+		public override string ToString()
+		{
+			return $"{Mathf.FloorToInt(Time / SecondsInMinute):D2} мин. {Mathf.FloorToInt(Time % SecondsInMinute):D2} сек.";
+		}
+	}
 }

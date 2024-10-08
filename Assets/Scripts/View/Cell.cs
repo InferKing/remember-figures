@@ -19,7 +19,7 @@ namespace View
         [SerializeField]
         private Image _image;
 
-        public event System.Action<byte, byte> Pressed;
+        public event System.Action<int, int> Pressed;
 
         private Model.Cell _cellData;
         private Sequence _sequence;
@@ -27,15 +27,15 @@ namespace View
         public void SetData(Model.Cell cellData)
         {
             _cellData = cellData;
-            _text.text = _cellData.value.ToString();
+            _text.text = _cellData.Value.ToString();
             GetComponent<Canvas>().worldCamera = Camera.main;
         }
 
         public void Click()
         {
-            if (_cellData.isLocked) return;
+            if (_cellData.IsLocked) return;
 
-            Pressed?.Invoke(_cellData.row, _cellData.col);
+            Pressed?.Invoke(_cellData.Row, _cellData.Column);
         }
 
         public void OnCorrectMove(Model.Cell cell)
@@ -49,7 +49,7 @@ namespace View
         {
             if (cell != _cellData) return;
 
-            if (_cellData.isShowed)
+            if (_cellData.IsShowed)
             {
                 Hide();
             }

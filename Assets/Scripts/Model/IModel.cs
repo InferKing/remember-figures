@@ -4,8 +4,8 @@ namespace Model
 {
 	public interface IModel
 	{
-        byte Row { get; }
-        byte Column { get; }
+        int Row { get; }
+        int Column { get; }
         Cell[,] Table { get; }
         Cell ActiveCell { get; }
 
@@ -13,6 +13,6 @@ namespace Model
         event Action<Cell> CorrectMove;
         event Action EndOfGame;
 
-        void Move(byte row, byte column);
+        void Move(int row, int column);
     } 
 }

@@ -11,7 +11,7 @@ namespace Controller
         public event Action GameStarted;
 
         private Timer _timer;
-        private GameSettings _settings;
+        private GameConfig _settings;
         private GameModel _model;
         private Statistics _statistics;
 
@@ -22,7 +22,7 @@ namespace Controller
         }
 
         [Inject]
-        private void InitSettings(GameSettings settings)
+        private void InitSettings(GameConfig settings)
         {
             _settings = settings;
         }
