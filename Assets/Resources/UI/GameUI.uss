@@ -1,0 +1,19 @@
+.btn {
+    align-self: auto;
+    font-size: 44px;
+    width: 35%;
+    margin-right: 30px;
+    background-color: rgb(19, 19, 19);
+    color: rgb(221, 221, 221);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 50px;
+}
+
+.text {
+    font-size: 44px;
+    margin-bottom: 10px;
+}

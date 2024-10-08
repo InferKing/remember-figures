@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 2120719677518151941}
   - component: {fileID: 1372441393685649850}
   - component: {fileID: 4054781769678408889}
+  - component: {fileID: 1510791051035517403}
   m_Layer: 3
   m_Name: Cell
-  m_TagString: Untagged
+  m_TagString: Cell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,6 +78,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 7843132110401087022}
   _image: {fileID: 8896895730171034752}
+  _motionTime: 0.15
+  _scaleValue: 0.9
+--- !u!65 &1510791051035517403
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661148478849624766}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5547717079186582096
 GameObject:
   m_ObjectHideFlags: 0

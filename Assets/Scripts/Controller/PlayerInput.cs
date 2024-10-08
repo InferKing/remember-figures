@@ -1,4 +1,7 @@
 using UnityEngine;
+using View;
+using Zenject;
+using Controller;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -6,18 +9,32 @@ public class PlayerInput : MonoBehaviour
     private LayerMask _mask;
     [SerializeField]
     private float _maxDistance = 50f;
+    private GameLoop _loop;
+    private bool _lockedInput = true;
+
+    [Inject]
+    private void InitGameLoop(GameLoop gameLoop)
+    {
+        _loop = gameLoop;
+        _loop.GameStarted += OnGameStarted;
+    }
+
+    private void OnGameStarted()
+    {
+        _lockedInput = false;
+    }
+
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (_lockedInput) return;
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, _maxDistance, _mask))
+            if (Physics.Raycast(ray, out RaycastHit hit, _maxDistance, _mask))
             {
-                if (hit.collider != null)
+                if (hit.collider != null && hit.collider.TryGetComponent(out Cell cell))
                 {
-                    // do smth...
+                    cell.Click();
                 }
             }
         }

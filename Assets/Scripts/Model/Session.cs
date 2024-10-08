@@ -6,7 +6,6 @@ namespace Model
     {
         public DifficultyType difficulty;
 
-
         public Session(DifficultyType difficulty)
         {
             this.difficulty = difficulty;

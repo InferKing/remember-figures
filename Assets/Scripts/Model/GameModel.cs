@@ -6,14 +6,15 @@ namespace Model
 {
     public class GameModel : IModel
     {
-        public event Action WrongMove;
-        public event Action CorrectMove;
+        public event Action<Cell> WrongMove;
+        public event Action<Cell> CorrectMove;
+        public event Action EndOfGame;
         public byte Row { get; }
         public byte Column { get; }
-
+        public Cell ActiveCell { get; protected set; }
         public Cell[,] Table { get; protected set; }
         private List<short> _picked;
-        private short _currentOrder = 0;
+        private short _currentOrder = 1;
 
         public GameModel(GameSettings settings)
         {
@@ -26,16 +27,31 @@ namespace Model
 
         public void Move(byte row, byte column)
         {
-            if (_currentOrder != Table[row, column].order)
+            var currentCell = Table[row, column];
+
+            if (currentCell != ActiveCell && ActiveCell != null)
             {
-                WrongMove?.Invoke();
+                return;
+            }
+
+            if (_currentOrder != currentCell.value)
+            {
+                ActiveCell = currentCell.showed ? null : currentCell;
+                WrongMove?.Invoke(currentCell);
             }
             else
             {
                 _currentOrder += 1;
-                Table[row, column].locked = true;
-                CorrectMove?.Invoke();
+                currentCell.locked = true;
+                CorrectMove?.Invoke(currentCell);
+                ActiveCell = null;
+
+                if (_currentOrder - 1 == Row * Column)
+                {
+                    EndOfGame?.Invoke();
+                }
             }
+            currentCell.showed = !currentCell.showed;
         }
 
         private void InitPicked(GameSettings settings)
@@ -46,7 +62,7 @@ namespace Model
                 _picked.Add((short)(i + 1));
             }
             // need to shuffle list before using
-            System.Random rand = new();
+            Random rand = new();
             _picked = _picked.OrderBy(x => rand.Next()).ToList();
         }
 
@@ -58,7 +74,7 @@ namespace Model
                 short columns = (short)Table.GetLength(1);
                 for (byte j = 0; j < columns; j++)
                 {
-                    Table[i, j] = new Cell(i, j, GetRandomValue(), (short)(i * columns + j));
+                    Table[i, j] = new Cell(i, j, GetRandomValue());
                 }
             }
         }

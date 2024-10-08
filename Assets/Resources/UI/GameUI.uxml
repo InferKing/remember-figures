@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI/GameUI.uss?fileID=7433441132597879392&amp;guid=ba54f785adfddb1419bbb360c500b30e&amp;type=3#GameUI" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(253, 213, 224, 0.88); height: 100%; flex-direction: column; align-self: stretch; flex-basis: 100%; max-height: 100%; min-height: 100%;">
+        <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-shrink: 0;">
+            <ui:Label tabindex="-1" text="А ты крутышка!" display-tooltip-when-elided="true" style="font-size: 70px; -unity-text-align: middle-center; color: rgb(221, 221, 221); background-color: rgb(19, 19, 19); margin-top: 0; margin-bottom: 0; margin-left: 0; margin-right: 0; padding-top: 15px; padding-bottom: 15px; -unity-font-style: bold;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 3; background-color: rgba(0, 0, 0, 0); flex-direction: column; flex-shrink: 0;">
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 3px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); margin-left: 40px; margin-right: 40px; margin-top: 40px; margin-bottom: 40px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; flex-direction: row;">
+                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-shrink: 0;">
+                        <ui:Label tabindex="-1" text="Длительность игровой сессии:" display-tooltip-when-elided="true" class="text" />
+                        <ui:Label tabindex="-1" text="Количество неправильных попыток:" display-tooltip-when-elided="true" class="text" style="font-size: 44px; margin-bottom: 10px;" />
+                        <ui:Label tabindex="-1" text="Сложность:" display-tooltip-when-elided="true" class="text" style="font-size: 44px; margin-bottom: 10px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-shrink: 0;">
+                        <ui:Label tabindex="-1" text="Какое-то время" display-tooltip-when-elided="true" name="time" class="text" />
+                        <ui:Label tabindex="-1" text="Какое-то время" display-tooltip-when-elided="true" name="attempts" class="text" />
+                        <ui:Label tabindex="-1" text="Какое-то время" display-tooltip-when-elided="true" name="difficulty" class="text" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; flex-shrink: 0; align-items: stretch; justify-content: center; align-self: auto; padding-top: 30px; padding-bottom: 30px;">
+                <ui:Button text="Начать сначала" display-tooltip-when-elided="true" name="restart" class="btn" />
+                <ui:Button text="В главное меню" display-tooltip-when-elided="true" name="menu" class="btn" style="align-self: auto; width: 35%; margin-left: 30px; border-top-left-radius: 0; border-top-right-radius: 50px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
