@@ -6,13 +6,13 @@ namespace Model
 {
     public class GameModel : IModel
     {
+        private List<short> _pickedCells;
+        private short _currentOrder = 1;
+
         public event Action<Cell> WrongMove;
         public event Action<Cell> CorrectMove;
         public event Action EndOfGame;
         
-        private List<short> _pickedCells;
-        private short _currentOrder = 1;
-
         public byte Row { get; }
         public byte Column { get; }
 
@@ -46,6 +46,7 @@ namespace Model
             {
                 _currentOrder += 1;
                 currentCell.isLocked = true;
+
                 CorrectMove?.Invoke(currentCell);
                 ActiveCell = null;
 

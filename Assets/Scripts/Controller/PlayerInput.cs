@@ -6,11 +6,13 @@ using Controller;
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField]
-    private LayerMask _mask;
-    [SerializeField]
     private float _maxDistance = 50f;
+    [SerializeField]
+    private LayerMask _mask;
+
+    private bool _isLockedInput = true;
+
     private GameLoop _loop;
-    private bool _lockedInput = true;
 
     [Inject]
     private void InitGameLoop(GameLoop gameLoop)
@@ -21,12 +23,12 @@ public class PlayerInput : MonoBehaviour
 
     private void OnGameStarted()
     {
-        _lockedInput = false;
+        _isLockedInput = false;
     }
 
     private void Update()
     {
-        if (_lockedInput) return;
+        if (_isLockedInput) return;
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {

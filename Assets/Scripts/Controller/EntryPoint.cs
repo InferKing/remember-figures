@@ -11,6 +11,7 @@ namespace Controller
     {
         [SerializeField]
         private List<GameSettings> _settings;
+
         [SerializeField]
         private GameObject _cell;
         [SerializeField]

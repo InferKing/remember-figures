@@ -9,17 +9,17 @@ namespace View
     [RequireComponent(typeof(RectTransform)), RequireComponent(typeof(Canvas))]
     public class Cell : MonoBehaviour
     {
-        public event System.Action<byte, byte> Pressed;
+        [SerializeField]
+        private float _motionTime = 0.25f;
+        [SerializeField]
+        private float _scaleValue = 0.95f;
 
         [SerializeField]
         private TMP_Text _text;
         [SerializeField]
         private Image _image;
 
-        [SerializeField]
-        private float _motionTime = 0.25f;
-        [SerializeField]
-        private float _scaleValue = 0.95f;
+        public event System.Action<byte, byte> Pressed;
 
         private Model.Cell _cellData;
         private Sequence _sequence;
