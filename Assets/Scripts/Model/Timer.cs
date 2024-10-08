@@ -5,6 +5,7 @@ namespace Model
     public class Timer
 	{
 		public float Time { get; private set; }
+
 		public void Start()
 		{
 			Time = UnityEngine.Time.time;

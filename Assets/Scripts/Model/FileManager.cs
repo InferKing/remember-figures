@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
@@ -10,7 +8,7 @@ namespace Model
     {
         private static readonly string path = Path.Combine(Application.dataPath, "SessionData");
         
-        public Session LoadSession()
+        public Session GetSession()
         {
             using StreamReader sr = new(path);
             return JsonConvert.DeserializeObject<Session>(sr.ReadToEnd());

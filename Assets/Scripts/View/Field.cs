@@ -6,11 +6,12 @@ namespace View
 {
     public class Field : IInitializable
     {
+        private const float _spacing = 0.2f;
+
         private Model.IModel _model;
+        private Cell[,] _cells;
         private Cell.Factory _factory;
         private GameLoop _gameLoop;
-        private const float _spacing = 0.2f;
-        private Cell[,] _cells;
 
         [Inject]
         private void InitFactory(Cell.Factory factory)

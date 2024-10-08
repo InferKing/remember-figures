@@ -9,12 +9,15 @@ namespace Model
         public event Action<Cell> WrongMove;
         public event Action<Cell> CorrectMove;
         public event Action EndOfGame;
+        
+        private List<short> _pickedCells;
+        private short _currentOrder = 1;
+
         public byte Row { get; }
         public byte Column { get; }
+
         public Cell ActiveCell { get; protected set; }
         public Cell[,] Table { get; protected set; }
-        private List<short> _picked;
-        private short _currentOrder = 1;
 
         public GameModel(GameSettings settings)
         {
@@ -36,13 +39,13 @@ namespace Model
 
             if (_currentOrder != currentCell.value)
             {
-                ActiveCell = currentCell.showed ? null : currentCell;
+                ActiveCell = currentCell.isShowed ? null : currentCell;
                 WrongMove?.Invoke(currentCell);
             }
             else
             {
                 _currentOrder += 1;
-                currentCell.locked = true;
+                currentCell.isLocked = true;
                 CorrectMove?.Invoke(currentCell);
                 ActiveCell = null;
 
@@ -51,27 +54,31 @@ namespace Model
                     EndOfGame?.Invoke();
                 }
             }
-            currentCell.showed = !currentCell.showed;
+            currentCell.isShowed = !currentCell.isShowed;
         }
 
         private void InitPicked(GameSettings settings)
         {
-            _picked = new();
+            _pickedCells = new();
+
             for (short i = 0; i < settings.Rows * settings.Columns; i++)
             {
-                _picked.Add((short)(i + 1));
+                _pickedCells.Add((short)(i + 1));
             }
+
             // need to shuffle list before using
             Random rand = new();
-            _picked = _picked.OrderBy(x => rand.Next()).ToList();
+            _pickedCells = _pickedCells.OrderBy(x => rand.Next()).ToList();
         }
 
         private void InitTable(GameSettings settings)
         {
             Table = new Cell[settings.Rows, settings.Columns];
+
             for (byte i = 0; i < Table.GetLength(0); i++)
             {
                 short columns = (short)Table.GetLength(1);
+
                 for (byte j = 0; j < columns; j++)
                 {
                     Table[i, j] = new Cell(i, j, GetRandomValue());
@@ -81,8 +88,8 @@ namespace Model
 
         private short GetRandomValue()
         {
-            short pickedValue = _picked[0];
-            _picked.RemoveAt(0);
+            short pickedValue = _pickedCells[0];
+            _pickedCells.RemoveAt(0);
             return pickedValue;
         }
     }

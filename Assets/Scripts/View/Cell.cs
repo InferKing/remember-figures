@@ -15,10 +15,12 @@ namespace View
         private TMP_Text _text;
         [SerializeField]
         private Image _image;
+
         [SerializeField]
         private float _motionTime = 0.25f;
         [SerializeField]
         private float _scaleValue = 0.95f;
+
         private Model.Cell _cellData;
         private Sequence _sequence;
 
@@ -31,20 +33,23 @@ namespace View
 
         public void Click()
         {
-            if (_cellData.locked) return;
+            if (_cellData.isLocked) return;
+
             Pressed?.Invoke(_cellData.row, _cellData.col);
         }
 
         public void OnCorrectMove(Model.Cell cell)
         {
             if (cell != _cellData) return;
+
             Show(Color.green);
         }
 
         public void OnWrongMove(Model.Cell cell)
         {
             if (cell != _cellData) return;
-            if (_cellData.showed)
+
+            if (_cellData.isShowed)
             {
                 Hide();
             }

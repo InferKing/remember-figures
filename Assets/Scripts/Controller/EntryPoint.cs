@@ -21,7 +21,7 @@ namespace Controller
             DOTween.Init();
 
             FileManager fm = new();
-            Session session = fm.LoadSession();
+            Session session = fm.GetSession();
             GameSettings pickedSettings = _settings.First(item => item.Difficulty == session.difficulty);
 
             RegisterModel(pickedSettings);
