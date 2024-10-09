@@ -19,10 +19,10 @@ namespace View
         [SerializeField]
         private Image _image;
 
-        public event System.Action<int, int> Pressed;
-
         private Model.Cell _cellData;
         private Sequence _sequence;
+
+        public event System.Action<int, int> Pressed;
 
         public void SetData(Model.Cell cellData)
         {

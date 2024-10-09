@@ -18,21 +18,23 @@ namespace Model
             InitTable(settings);
         }
 
+        public event Action<Cell> WrongMove;
+        public event Action<Cell> CorrectMove;
+        public event Action EndOfGame;
+
         public int Row { get; }
         public int Column { get; }
 
         public Cell ActiveCell { get; protected set; }
         public Cell[,] Table { get; protected set; }
 
-        public event Action<Cell> WrongMove;
-        public event Action<Cell> CorrectMove;
-        public event Action EndOfGame;
+
 
         public void Move(int row, int column)
         {
             var currentCell = Table[row, column];
 
-            if (currentCell != ActiveCell && ActiveCell != null)
+            if (CanCellMove(currentCell))
             {
                 return;
             }
@@ -57,6 +59,11 @@ namespace Model
             }
 
             currentCell.IsShowed = !currentCell.IsShowed;
+        }
+
+        private bool CanCellMove(Cell currentCell)
+        {
+            return currentCell != ActiveCell && ActiveCell != null;
         }
 
         private void InitPicked(GameConfig settings)
@@ -87,12 +94,12 @@ namespace Model
 
                 for (int j = 0; j < columns; j++)
                 {
-                    Table[i, j] = new Cell(i, j, GetAndRemoveFirstCell());
+                    Table[i, j] = new Cell(i, j, TakeFirstCell());
                 }
             }
         }
 
-        private int GetAndRemoveFirstCell()
+        private int TakeFirstCell()
         {
             int pickedValue = _pickedCells[0];
             _pickedCells.RemoveAt(0);

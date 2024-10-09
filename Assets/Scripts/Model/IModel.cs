@@ -2,8 +2,8 @@ using System;
 
 namespace Model
 {
-	public interface IModel
-	{
+    public interface IModel
+    {
         int Row { get; }
         int Column { get; }
         Cell[,] Table { get; }
@@ -14,5 +14,5 @@ namespace Model
         event Action EndOfGame;
 
         void Move(int row, int column);
-    } 
+    }
 }
